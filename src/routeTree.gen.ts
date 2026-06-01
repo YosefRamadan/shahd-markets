@@ -16,11 +16,17 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CategoriesIndexRouteImport } from './routes/categories.index'
+import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
+import { Route as CategoriesSlugRouteImport } from './routes/categories.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated.account'
 import { Route as AdminAdminRouteImport } from './routes/_admin.admin'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountOrdersRouteImport } from './routes/_authenticated.account.orders'
+import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
+import { Route as AdminAdminProductsIndexRouteImport } from './routes/_admin.admin.products.index'
+import { Route as AdminAdminProductsIdRouteImport } from './routes/_admin.admin.products.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -55,6 +61,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsSlugRoute = ProductsSlugRouteImport.update({
+  id: '/products/$slug',
+  path: '/products/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
+  id: '/categories/$slug',
+  path: '/categories/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
@@ -82,6 +103,21 @@ const AuthenticatedAccountOrdersRoute =
     path: '/orders',
     getParentRoute: () => AuthenticatedAccountRoute,
   } as any)
+const AdminAdminCategoriesRoute = AdminAdminCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
+const AdminAdminProductsIndexRoute = AdminAdminProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
+const AdminAdminProductsIdRoute = AdminAdminProductsIdRouteImport.update({
+  id: '/products/$id',
+  path: '/products/$id',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,11 +125,17 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AdminAdminRoute
+  '/admin': typeof AdminAdminRouteWithChildren
   '/account': typeof AuthenticatedAccountRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/categories/': typeof CategoriesIndexRoute
+  '/admin/categories': typeof AdminAdminCategoriesRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
+  '/admin/products/$id': typeof AdminAdminProductsIdRoute
+  '/admin/products/': typeof AdminAdminProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -101,10 +143,16 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AdminAdminRoute
+  '/admin': typeof AdminAdminRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/categories': typeof CategoriesIndexRoute
+  '/admin/categories': typeof AdminAdminCategoriesRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account': typeof AuthenticatedAccountIndexRoute
+  '/admin/products/$id': typeof AdminAdminProductsIdRoute
+  '/admin/products': typeof AdminAdminProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -115,11 +163,17 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_admin/admin': typeof AdminAdminRoute
+  '/_admin/admin': typeof AdminAdminRouteWithChildren
   '/_authenticated/account': typeof AuthenticatedAccountRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
+  '/products/$slug': typeof ProductsSlugRoute
+  '/categories/': typeof CategoriesIndexRoute
+  '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
   '/_authenticated/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
+  '/_admin/admin/products/$id': typeof AdminAdminProductsIdRoute
+  '/_admin/admin/products/': typeof AdminAdminProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -132,8 +186,14 @@ export interface FileRouteTypes {
     | '/admin'
     | '/account'
     | '/admin/login'
+    | '/categories/$slug'
+    | '/products/$slug'
+    | '/categories/'
+    | '/admin/categories'
     | '/account/orders'
     | '/account/'
+    | '/admin/products/$id'
+    | '/admin/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -143,8 +203,14 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/admin'
     | '/admin/login'
+    | '/categories/$slug'
+    | '/products/$slug'
+    | '/categories'
+    | '/admin/categories'
     | '/account/orders'
     | '/account'
+    | '/admin/products/$id'
+    | '/admin/products'
   id:
     | '__root__'
     | '/'
@@ -157,8 +223,14 @@ export interface FileRouteTypes {
     | '/_admin/admin'
     | '/_authenticated/account'
     | '/admin/login'
+    | '/categories/$slug'
+    | '/products/$slug'
+    | '/categories/'
+    | '/_admin/admin/categories'
     | '/_authenticated/account/orders'
     | '/_authenticated/account/'
+    | '/_admin/admin/products/$id'
+    | '/_admin/admin/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -170,6 +242,9 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  CategoriesSlugRoute: typeof CategoriesSlugRoute
+  ProductsSlugRoute: typeof ProductsSlugRoute
+  CategoriesIndexRoute: typeof CategoriesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -223,6 +298,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/categories/': {
+      id: '/categories/'
+      path: '/categories'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof CategoriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$slug': {
+      id: '/products/$slug'
+      path: '/products/$slug'
+      fullPath: '/products/$slug'
+      preLoaderRoute: typeof ProductsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categories/$slug': {
+      id: '/categories/$slug'
+      path: '/categories/$slug'
+      fullPath: '/categories/$slug'
+      preLoaderRoute: typeof CategoriesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
@@ -258,15 +354,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountOrdersRouteImport
       parentRoute: typeof AuthenticatedAccountRoute
     }
+    '/_admin/admin/categories': {
+      id: '/_admin/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminAdminCategoriesRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
+    '/_admin/admin/products/': {
+      id: '/_admin/admin/products/'
+      path: '/products'
+      fullPath: '/admin/products/'
+      preLoaderRoute: typeof AdminAdminProductsIndexRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
+    '/_admin/admin/products/$id': {
+      id: '/_admin/admin/products/$id'
+      path: '/products/$id'
+      fullPath: '/admin/products/$id'
+      preLoaderRoute: typeof AdminAdminProductsIdRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
   }
 }
 
+interface AdminAdminRouteChildren {
+  AdminAdminCategoriesRoute: typeof AdminAdminCategoriesRoute
+  AdminAdminProductsIdRoute: typeof AdminAdminProductsIdRoute
+  AdminAdminProductsIndexRoute: typeof AdminAdminProductsIndexRoute
+}
+
+const AdminAdminRouteChildren: AdminAdminRouteChildren = {
+  AdminAdminCategoriesRoute: AdminAdminCategoriesRoute,
+  AdminAdminProductsIdRoute: AdminAdminProductsIdRoute,
+  AdminAdminProductsIndexRoute: AdminAdminProductsIndexRoute,
+}
+
+const AdminAdminRouteWithChildren = AdminAdminRoute._addFileChildren(
+  AdminAdminRouteChildren,
+)
+
 interface AdminRouteChildren {
-  AdminAdminRoute: typeof AdminAdminRoute
+  AdminAdminRoute: typeof AdminAdminRouteWithChildren
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminAdminRoute: AdminAdminRoute,
+  AdminAdminRoute: AdminAdminRouteWithChildren,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -305,6 +438,9 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
+  CategoriesSlugRoute: CategoriesSlugRoute,
+  ProductsSlugRoute: ProductsSlugRoute,
+  CategoriesIndexRoute: CategoriesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

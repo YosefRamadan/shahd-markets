@@ -14,6 +14,151 @@ export type Database = {
   }
   public: {
     Tables: {
+      categories: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name_ar: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name_ar: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name_ar?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      product_variants: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name_ar: string
+          price: number
+          product_id: string
+          sku: string | null
+          sort_order: number
+          stock: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar: string
+          price: number
+          product_id: string
+          sku?: string | null
+          sort_order?: number
+          stock?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          price?: number
+          product_id?: string
+          sku?: string | null
+          sort_order?: number
+          stock?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          base_price: number
+          category_id: string
+          created_at: string
+          description_ar: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          is_weight_based: boolean
+          name_ar: string
+          price_per_kg: number | null
+          slug: string
+          sort_order: number
+          stock: number
+          unit_label_ar: string | null
+          updated_at: string
+          weight_options_grams: number[]
+        }
+        Insert: {
+          base_price?: number
+          category_id: string
+          created_at?: string
+          description_ar?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_weight_based?: boolean
+          name_ar: string
+          price_per_kg?: number | null
+          slug: string
+          sort_order?: number
+          stock?: number
+          unit_label_ar?: string | null
+          updated_at?: string
+          weight_options_grams?: number[]
+        }
+        Update: {
+          base_price?: number
+          category_id?: string
+          created_at?: string
+          description_ar?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_weight_based?: boolean
+          name_ar?: string
+          price_per_kg?: number | null
+          slug?: string
+          sort_order?: number
+          stock?: number
+          unit_label_ar?: string | null
+          updated_at?: string
+          weight_options_grams?: number[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           city: string | null
