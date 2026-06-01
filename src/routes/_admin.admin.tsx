@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ShieldCheck, Package, Boxes, Layers, Settings } from "lucide-react";
 import { SiteShell } from "@/components/site/SiteShell";
 
@@ -9,11 +9,11 @@ export const Route = createFileRoute("/_admin/admin")({
 
 function AdminDashboard() {
   const items = [
-    { Icon: Layers, t: "الأقسام" },
-    { Icon: Boxes, t: "المنتجات" },
-    { Icon: Package, t: "الطلبات" },
-    { Icon: Settings, t: "الإعدادات" },
-  ];
+    { Icon: Layers, t: "الأقسام", to: "/admin/categories", note: "إدارة الأقسام" },
+    { Icon: Boxes, t: "المنتجات", to: "/admin/products", note: "إدارة المنتجات والمتغيرات" },
+    { Icon: Package, t: "الطلبات", to: "/admin", note: "قريبًا" },
+    { Icon: Settings, t: "الإعدادات", to: "/admin", note: "قريبًا" },
+  ] as const;
   return (
     <SiteShell>
       <div className="container mx-auto px-4 py-10">
@@ -28,12 +28,16 @@ function AdminDashboard() {
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map(({ Icon, t }) => (
-            <div key={t} className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-soft)]">
+          {items.map(({ Icon, t, to, note }) => (
+            <Link
+              key={t}
+              to={to}
+              className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-elegant)]"
+            >
               <Icon className="h-7 w-7 text-primary" />
               <div className="mt-3 font-semibold">{t}</div>
-              <div className="mt-1 text-xs text-muted-foreground">قريبًا</div>
-            </div>
+              <div className="mt-1 text-xs text-muted-foreground">{note}</div>
+            </Link>
           ))}
         </div>
       </div>
