@@ -27,6 +27,7 @@ import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticate
 import { Route as AdminAdminRouteImport } from './routes/_admin.admin'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AuthenticatedAccountOrdersRouteImport } from './routes/_authenticated.account.orders'
+import { Route as AdminAdminSettingsRouteImport } from './routes/_admin.admin.settings'
 import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
 import { Route as AdminAdminProductsIndexRouteImport } from './routes/_admin.admin.products.index'
 import { Route as AdminAdminOrdersIndexRouteImport } from './routes/_admin.admin.orders.index'
@@ -123,6 +124,11 @@ const AuthenticatedAccountOrdersRoute =
     path: '/orders',
     getParentRoute: () => AuthenticatedAccountRoute,
   } as any)
+const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
 const AdminAdminCategoriesRoute = AdminAdminCategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/products/$slug': typeof ProductsSlugRoute
   '/categories/': typeof CategoriesIndexRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
+  '/admin/settings': typeof AdminAdminSettingsRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/admin/orders/$id': typeof AdminAdminOrdersIdRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/products/$slug': typeof ProductsSlugRoute
   '/categories': typeof CategoriesIndexRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
+  '/admin/settings': typeof AdminAdminSettingsRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/admin/orders/$id': typeof AdminAdminOrdersIdRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/products/$slug': typeof ProductsSlugRoute
   '/categories/': typeof CategoriesIndexRoute
   '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
+  '/_admin/admin/settings': typeof AdminAdminSettingsRoute
   '/_authenticated/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_admin/admin/orders/$id': typeof AdminAdminOrdersIdRoute
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/products/$slug'
     | '/categories/'
     | '/admin/categories'
+    | '/admin/settings'
     | '/account/orders'
     | '/account/'
     | '/admin/orders/$id'
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/products/$slug'
     | '/categories'
     | '/admin/categories'
+    | '/admin/settings'
     | '/account/orders'
     | '/account'
     | '/admin/orders/$id'
@@ -285,6 +296,7 @@ export interface FileRouteTypes {
     | '/products/$slug'
     | '/categories/'
     | '/_admin/admin/categories'
+    | '/_admin/admin/settings'
     | '/_authenticated/account/orders'
     | '/_authenticated/account/'
     | '/_admin/admin/orders/$id'
@@ -438,6 +450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountOrdersRouteImport
       parentRoute: typeof AuthenticatedAccountRoute
     }
+    '/_admin/admin/settings': {
+      id: '/_admin/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminAdminSettingsRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
     '/_admin/admin/categories': {
       id: '/_admin/admin/categories'
       path: '/categories'
@@ -478,6 +497,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminAdminRouteChildren {
   AdminAdminCategoriesRoute: typeof AdminAdminCategoriesRoute
+  AdminAdminSettingsRoute: typeof AdminAdminSettingsRoute
   AdminAdminOrdersIdRoute: typeof AdminAdminOrdersIdRoute
   AdminAdminProductsIdRoute: typeof AdminAdminProductsIdRoute
   AdminAdminOrdersIndexRoute: typeof AdminAdminOrdersIndexRoute
@@ -486,6 +506,7 @@ interface AdminAdminRouteChildren {
 
 const AdminAdminRouteChildren: AdminAdminRouteChildren = {
   AdminAdminCategoriesRoute: AdminAdminCategoriesRoute,
+  AdminAdminSettingsRoute: AdminAdminSettingsRoute,
   AdminAdminOrdersIdRoute: AdminAdminOrdersIdRoute,
   AdminAdminProductsIdRoute: AdminAdminProductsIdRoute,
   AdminAdminOrdersIndexRoute: AdminAdminOrdersIndexRoute,
