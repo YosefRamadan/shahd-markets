@@ -111,3 +111,20 @@ export function Header() {
     </header>
   );
 }
+
+function CartButton() {
+  const { data } = useQuery({ ...cartQueryOptions, staleTime: 10_000 });
+  const count = data?.lines.reduce((n, l) => n + l.quantity, 0) ?? 0;
+  return (
+    <Button variant="ghost" size="sm" asChild className="relative">
+      <Link to="/cart" aria-label="السلة">
+        <ShoppingCart className="h-5 w-5" />
+        {count > 0 && (
+          <span className="num absolute -end-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[11px] font-bold text-primary-foreground">
+            {count > 99 ? "99+" : count}
+          </span>
+        )}
+      </Link>
+    </Button>
+  );
+}
