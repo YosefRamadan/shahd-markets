@@ -31,6 +31,7 @@ import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.
 import { Route as AdminAdminProductsIndexRouteImport } from './routes/_admin.admin.products.index'
 import { Route as AdminAdminOrdersIndexRouteImport } from './routes/_admin.admin.orders.index'
 import { Route as AdminAdminProductsIdRouteImport } from './routes/_admin.admin.products.$id'
+import { Route as AdminAdminOrdersIdRouteImport } from './routes/_admin.admin.orders.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -142,6 +143,11 @@ const AdminAdminProductsIdRoute = AdminAdminProductsIdRouteImport.update({
   path: '/products/$id',
   getParentRoute: () => AdminAdminRoute,
 } as any)
+const AdminAdminOrdersIdRoute = AdminAdminOrdersIdRouteImport.update({
+  id: '/orders/$id',
+  path: '/orders/$id',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminAdminCategoriesRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
+  '/admin/orders/$id': typeof AdminAdminOrdersIdRoute
   '/admin/products/$id': typeof AdminAdminProductsIdRoute
   '/admin/orders/': typeof AdminAdminOrdersIndexRoute
   '/admin/products/': typeof AdminAdminProductsIndexRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminAdminCategoriesRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account': typeof AuthenticatedAccountIndexRoute
+  '/admin/orders/$id': typeof AdminAdminOrdersIdRoute
   '/admin/products/$id': typeof AdminAdminProductsIdRoute
   '/admin/orders': typeof AdminAdminOrdersIndexRoute
   '/admin/products': typeof AdminAdminProductsIndexRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
   '/_authenticated/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
+  '/_admin/admin/orders/$id': typeof AdminAdminOrdersIdRoute
   '/_admin/admin/products/$id': typeof AdminAdminProductsIdRoute
   '/_admin/admin/orders/': typeof AdminAdminOrdersIndexRoute
   '/_admin/admin/products/': typeof AdminAdminProductsIndexRoute
@@ -231,6 +240,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/account/orders'
     | '/account/'
+    | '/admin/orders/$id'
     | '/admin/products/$id'
     | '/admin/orders/'
     | '/admin/products/'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/account/orders'
     | '/account'
+    | '/admin/orders/$id'
     | '/admin/products/$id'
     | '/admin/orders'
     | '/admin/products'
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/_admin/admin/categories'
     | '/_authenticated/account/orders'
     | '/_authenticated/account/'
+    | '/_admin/admin/orders/$id'
     | '/_admin/admin/products/$id'
     | '/_admin/admin/orders/'
     | '/_admin/admin/products/'
@@ -454,11 +466,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminProductsIdRouteImport
       parentRoute: typeof AdminAdminRoute
     }
+    '/_admin/admin/orders/$id': {
+      id: '/_admin/admin/orders/$id'
+      path: '/orders/$id'
+      fullPath: '/admin/orders/$id'
+      preLoaderRoute: typeof AdminAdminOrdersIdRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
   }
 }
 
 interface AdminAdminRouteChildren {
   AdminAdminCategoriesRoute: typeof AdminAdminCategoriesRoute
+  AdminAdminOrdersIdRoute: typeof AdminAdminOrdersIdRoute
   AdminAdminProductsIdRoute: typeof AdminAdminProductsIdRoute
   AdminAdminOrdersIndexRoute: typeof AdminAdminOrdersIndexRoute
   AdminAdminProductsIndexRoute: typeof AdminAdminProductsIndexRoute
@@ -466,6 +486,7 @@ interface AdminAdminRouteChildren {
 
 const AdminAdminRouteChildren: AdminAdminRouteChildren = {
   AdminAdminCategoriesRoute: AdminAdminCategoriesRoute,
+  AdminAdminOrdersIdRoute: AdminAdminOrdersIdRoute,
   AdminAdminProductsIdRoute: AdminAdminProductsIdRoute,
   AdminAdminOrdersIndexRoute: AdminAdminOrdersIndexRoute,
   AdminAdminProductsIndexRoute: AdminAdminProductsIndexRoute,
