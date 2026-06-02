@@ -13,7 +13,7 @@ import {
   adminUpdateOrderStatus,
   STATUS_LABEL_AR,
   type OrderStatus,
-} from "@/lib/orders.functions";
+} from "@/lib/orders";
 import { formatEgp } from "@/lib/site-config";
 
 export const Route = createFileRoute("/_admin/admin/orders/$id")({

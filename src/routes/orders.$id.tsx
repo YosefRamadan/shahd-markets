@@ -25,7 +25,7 @@ import {
   updateMyOrder,
   STATUS_LABEL_AR,
   type OrderStatus,
-} from "@/lib/orders.functions";
+} from "@/lib/orders";
 import { formatEgp, SITE } from "@/lib/site-config";
 
 export const Route = createFileRoute("/orders/$id")({
