@@ -19,13 +19,8 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  getOrder,
-  cancelMyOrder,
-  updateMyOrder,
-  STATUS_LABEL_AR,
-  type OrderStatus,
-} from "@/lib/orders";
+import { getOrder, cancelMyOrder, updateMyOrder } from "@/lib/orders.functions";
+import { STATUS_LABEL_AR, type OrderStatus } from "@/lib/orders";
 import { formatEgp, SITE } from "@/lib/site-config";
 
 export const Route = createFileRoute("/orders/$id")({
