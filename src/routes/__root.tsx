@@ -125,7 +125,11 @@ function AuthSync() {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN") {
+        // Merge guest cart into user cart on sign-in.
+        mergeGuestCart().catch(() => {});
+      }
       router.invalidate();
       queryClient.invalidateQueries();
     });
