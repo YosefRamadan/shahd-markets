@@ -132,6 +132,122 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          is_weight_based: boolean
+          line_total: number
+          order_id: string
+          product_id: string
+          product_name: string
+          quantity: number
+          unit_price: number
+          variant_id: string | null
+          variant_name: string | null
+          weight_grams: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_weight_based?: boolean
+          line_total: number
+          order_id: string
+          product_id: string
+          product_name: string
+          quantity: number
+          unit_price: number
+          variant_id?: string | null
+          variant_name?: string | null
+          weight_grams?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_weight_based?: boolean
+          line_total?: number
+          order_id?: string
+          product_id?: string
+          product_name?: string
+          quantity?: number
+          unit_price?: number
+          variant_id?: string | null
+          variant_name?: string | null
+          weight_grams?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          cancelled_at: string | null
+          created_at: string
+          customer_address: string
+          customer_city: string
+          customer_name: string
+          customer_phone: string
+          delivered_at: string | null
+          delivery_fee: number
+          id: string
+          notes: string | null
+          order_number: string
+          session_id: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          stock_deducted: boolean
+          subtotal: number
+          total: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          cancelled_at?: string | null
+          created_at?: string
+          customer_address: string
+          customer_city?: string
+          customer_name: string
+          customer_phone: string
+          delivered_at?: string | null
+          delivery_fee?: number
+          id?: string
+          notes?: string | null
+          order_number: string
+          session_id?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          stock_deducted?: boolean
+          subtotal: number
+          total: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          cancelled_at?: string | null
+          created_at?: string
+          customer_address?: string
+          customer_city?: string
+          customer_name?: string
+          customer_phone?: string
+          delivered_at?: string | null
+          delivery_fee?: number
+          id?: string
+          notes?: string | null
+          order_number?: string
+          session_id?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          stock_deducted?: boolean
+          subtotal?: number
+          total?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       product_variants: {
         Row: {
           created_at: string
@@ -327,6 +443,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      apply_order_stock: { Args: { p_order_id: string }; Returns: undefined }
+      generate_order_number: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -334,9 +452,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      restore_order_stock: { Args: { p_order_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "manager" | "customer"
+      order_status:
+        | "placed"
+        | "preparing"
+        | "out_for_delivery"
+        | "delivered"
+        | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -465,6 +590,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "manager", "customer"],
+      order_status: [
+        "placed",
+        "preparing",
+        "out_for_delivery",
+        "delivered",
+        "cancelled",
+      ],
     },
   },
 } as const

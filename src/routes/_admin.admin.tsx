@@ -11,8 +11,8 @@ function AdminDashboard() {
   const items = [
     { Icon: Layers, t: "الأقسام", to: "/admin/categories", note: "إدارة الأقسام" },
     { Icon: Boxes, t: "المنتجات", to: "/admin/products", note: "إدارة المنتجات والمتغيرات" },
-    { Icon: Package, t: "الطلبات", to: "/admin", note: "قريبًا" },
-    { Icon: Settings, t: "الإعدادات", to: "/admin", note: "قريبًا" },
+    { Icon: Package, t: "الطلبات", to: "/admin/orders", note: "متابعة الطلبات وتحديث الحالة" },
+    { Icon: Settings, t: "الإعدادات", to: "/admin/settings", note: "الحد الأدنى ورسوم التوصيل" },
   ] as const;
   return (
     <SiteShell>
