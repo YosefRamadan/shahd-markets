@@ -430,7 +430,9 @@ export const adminUpdateOrderStatus = createServerFn({ method: "POST" })
     if (!allowed.includes(data.status))
       throw new Error("هذا التغيير في الحالة غير مسموح");
 
-    const patch: Record<string, any> = { status: data.status };
+    const patch: Database["public"]["Tables"]["orders"]["Update"] = {
+      status: data.status,
+    };
     if (data.status === "delivered") patch.delivered_at = new Date().toISOString();
     if (data.status === "cancelled") patch.cancelled_at = new Date().toISOString();
 
