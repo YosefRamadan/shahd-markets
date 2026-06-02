@@ -4,7 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { Package, ChevronLeft } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { listMyOrders, STATUS_LABEL_AR, type OrderStatus } from "@/lib/orders";
+import { listMyOrders } from "@/lib/orders.functions";
+import { STATUS_LABEL_AR, type OrderStatus } from "@/lib/orders";
 import { formatEgp } from "@/lib/site-config";
 
 export const Route = createFileRoute("/_authenticated/account/orders")({
