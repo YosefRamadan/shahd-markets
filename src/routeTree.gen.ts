@@ -29,6 +29,7 @@ import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedAccountOrdersRouteImport } from './routes/_authenticated.account.orders'
 import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
 import { Route as AdminAdminProductsIndexRouteImport } from './routes/_admin.admin.products.index'
+import { Route as AdminAdminOrdersIndexRouteImport } from './routes/_admin.admin.orders.index'
 import { Route as AdminAdminProductsIdRouteImport } from './routes/_admin.admin.products.$id'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -131,6 +132,11 @@ const AdminAdminProductsIndexRoute = AdminAdminProductsIndexRouteImport.update({
   path: '/products/',
   getParentRoute: () => AdminAdminRoute,
 } as any)
+const AdminAdminOrdersIndexRoute = AdminAdminOrdersIndexRouteImport.update({
+  id: '/orders/',
+  path: '/orders/',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
 const AdminAdminProductsIdRoute = AdminAdminProductsIdRouteImport.update({
   id: '/products/$id',
   path: '/products/$id',
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/admin/products/$id': typeof AdminAdminProductsIdRoute
+  '/admin/orders/': typeof AdminAdminOrdersIndexRoute
   '/admin/products/': typeof AdminAdminProductsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -176,6 +183,7 @@ export interface FileRoutesByTo {
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/admin/products/$id': typeof AdminAdminProductsIdRoute
+  '/admin/orders': typeof AdminAdminOrdersIndexRoute
   '/admin/products': typeof AdminAdminProductsIndexRoute
 }
 export interface FileRoutesById {
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/_authenticated/account/orders': typeof AuthenticatedAccountOrdersRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_admin/admin/products/$id': typeof AdminAdminProductsIdRoute
+  '/_admin/admin/orders/': typeof AdminAdminOrdersIndexRoute
   '/_admin/admin/products/': typeof AdminAdminProductsIndexRoute
 }
 export interface FileRouteTypes {
@@ -223,6 +232,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account/'
     | '/admin/products/$id'
+    | '/admin/orders/'
     | '/admin/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account'
     | '/admin/products/$id'
+    | '/admin/orders'
     | '/admin/products'
   id:
     | '__root__'
@@ -266,6 +277,7 @@ export interface FileRouteTypes {
     | '/_authenticated/account/orders'
     | '/_authenticated/account/'
     | '/_admin/admin/products/$id'
+    | '/_admin/admin/orders/'
     | '/_admin/admin/products/'
   fileRoutesById: FileRoutesById
 }
@@ -428,6 +440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminProductsIndexRouteImport
       parentRoute: typeof AdminAdminRoute
     }
+    '/_admin/admin/orders/': {
+      id: '/_admin/admin/orders/'
+      path: '/orders'
+      fullPath: '/admin/orders/'
+      preLoaderRoute: typeof AdminAdminOrdersIndexRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
     '/_admin/admin/products/$id': {
       id: '/_admin/admin/products/$id'
       path: '/products/$id'
@@ -441,12 +460,14 @@ declare module '@tanstack/react-router' {
 interface AdminAdminRouteChildren {
   AdminAdminCategoriesRoute: typeof AdminAdminCategoriesRoute
   AdminAdminProductsIdRoute: typeof AdminAdminProductsIdRoute
+  AdminAdminOrdersIndexRoute: typeof AdminAdminOrdersIndexRoute
   AdminAdminProductsIndexRoute: typeof AdminAdminProductsIndexRoute
 }
 
 const AdminAdminRouteChildren: AdminAdminRouteChildren = {
   AdminAdminCategoriesRoute: AdminAdminCategoriesRoute,
   AdminAdminProductsIdRoute: AdminAdminProductsIdRoute,
+  AdminAdminOrdersIndexRoute: AdminAdminOrdersIndexRoute,
   AdminAdminProductsIndexRoute: AdminAdminProductsIndexRoute,
 }
 
@@ -508,3 +529,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
