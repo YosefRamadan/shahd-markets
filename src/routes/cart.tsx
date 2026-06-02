@@ -170,10 +170,10 @@ function CartPage() {
                 }
                 asChild
               >
-                <Link to="/cart">إتمام الطلب</Link>
+                <Link to="/checkout">إتمام الطلب</Link>
               </Button>
               <p className="text-center text-xs text-muted-foreground">
-                صفحة الدفع ستفعّل في الخطوة التالية
+                الدفع عند الاستلام داخل {SITE.cityAr}
               </p>
             </aside>
           </div>
