@@ -6,23 +6,11 @@ import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import type { Database } from "@/integrations/supabase/types";
 import { SITE } from "@/lib/site-config";
+import type { OrderStatus } from "@/lib/orders";
 
 const CART_COOKIE = "sh_cart_sid";
 
-export type OrderStatus =
-  | "placed"
-  | "preparing"
-  | "out_for_delivery"
-  | "delivered"
-  | "cancelled";
-
-export const STATUS_LABEL_AR: Record<OrderStatus, string> = {
-  placed: "تم الطلب",
-  preparing: "تم التجهيز",
-  out_for_delivery: "مع الطيار",
-  delivered: "تم التسليم",
-  cancelled: "ملغي",
-};
+export type { OrderStatus };
 
 async function getOptionalUserId(): Promise<string | null> {
   const auth = getRequestHeader("authorization");
