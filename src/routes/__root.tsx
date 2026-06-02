@@ -13,6 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { mergeGuestCart } from "@/lib/cart.functions";
 
 function NotFoundComponent() {
   return (
@@ -124,7 +125,11 @@ function AuthSync() {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN") {
+        // Merge guest cart into user cart on sign-in.
+        mergeGuestCart().catch(() => {});
+      }
       router.invalidate();
       queryClient.invalidateQueries();
     });

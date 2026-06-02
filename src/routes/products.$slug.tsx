@@ -1,5 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
+import { ShoppingCart, Loader2 } from "lucide-react";
+
 import { SiteShell } from "@/components/site/SiteShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +15,7 @@ import {
   isProductInStock,
   priceForWeight,
 } from "@/lib/catalog";
+import { addToCart } from "@/lib/cart.functions";
 import { SITE, formatEgp } from "@/lib/site-config";
 
 export const Route = createFileRoute("/products/$slug")({
@@ -26,7 +32,25 @@ function ProductPage() {
   const [variants, setVariants] = useState<ProductVariant[]>([]);
   const [variantId, setVariantId] = useState<string | null>(null);
   const [weight, setWeight] = useState<number>(1000);
+  const [qty, setQty] = useState<number>(1);
   const [loading, setLoading] = useState(true);
+
+  const queryClient = useQueryClient();
+  const addToCartFn = useServerFn(addToCart);
+  const addMutation = useMutation({
+    mutationFn: (vars: {
+      product_id: string;
+      variant_id: string | null;
+      weight_grams: number | null;
+      quantity: number;
+    }) => addToCartFn({ data: vars }),
+    onSuccess: () => {
+      toast.success("تمت الإضافة إلى السلة");
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
 
   useEffect(() => {
     let cancelled = false;
@@ -229,13 +253,56 @@ function ProductPage() {
               </div>
             )}
 
-            <div className="mt-8">
-              <Button size="lg" disabled={!canBuy} className="w-full md:w-auto">
+            <div className="mt-8 space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold">الكمية:</span>
+                <div className="inline-flex items-center rounded-xl border border-border bg-background">
+                  <button
+                    type="button"
+                    className="px-3 py-2 disabled:opacity-50"
+                    disabled={qty <= 1}
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  >
+                    −
+                  </button>
+                  <span className="num w-10 text-center font-semibold">{qty}</span>
+                  <button
+                    type="button"
+                    className="px-3 py-2 disabled:opacity-50"
+                    disabled={qty >= 99}
+                    onClick={() => setQty((q) => Math.min(99, q + 1))}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <Button
+                size="lg"
+                disabled={!canBuy || addMutation.isPending}
+                className="w-full md:w-auto"
+                onClick={() =>
+                  addMutation.mutate({
+                    product_id: product.id,
+                    variant_id: selectedVariant?.id ?? null,
+                    weight_grams:
+                      !selectedVariant && product.is_weight_based ? weight : null,
+                    quantity: qty,
+                  })
+                }
+              >
+                {addMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ShoppingCart className="h-4 w-4" />
+                )}
                 {canBuy ? "أضف إلى السلة" : "غير متوفر"}
               </Button>
-              <p className="mt-3 text-xs text-muted-foreground">
-                السلة وإتمام الطلب سيتم تفعيلهما في الخطوة التالية.
-              </p>
+              {product.is_weight_based && !selectedVariant && (
+                <p className="text-xs text-muted-foreground">
+                  السعر النهائي يُحتسب على الوزن الفعلي عند التحضير.
+                </p>
+              )}
             </div>
           </div>
         </div>

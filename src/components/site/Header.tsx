@@ -1,11 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { LogIn, LogOut, ShoppingCart, User, ShieldCheck, Phone } from "lucide-react";
 import type { Session } from "@supabase/supabase-js";
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site-config";
+import { cartQueryOptions } from "@/lib/cart.queries";
 
 export function Header() {
   const [session, setSession] = useState<Session | null>(null);
@@ -63,6 +65,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <CartButton />
           {session ? (
             <>
               {isStaff && (
@@ -106,5 +109,22 @@ export function Header() {
         </div>
       </div>
     </header>
+  );
+}
+
+function CartButton() {
+  const { data } = useQuery({ ...cartQueryOptions, staleTime: 10_000 });
+  const count = data?.lines.reduce((n, l) => n + l.quantity, 0) ?? 0;
+  return (
+    <Button variant="ghost" size="sm" asChild className="relative">
+      <Link to="/cart" aria-label="السلة">
+        <ShoppingCart className="h-5 w-5" />
+        {count > 0 && (
+          <span className="num absolute -end-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[11px] font-bold text-primary-foreground">
+            {count > 99 ? "99+" : count}
+          </span>
+        )}
+      </Link>
+    </Button>
   );
 }
