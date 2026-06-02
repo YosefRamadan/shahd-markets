@@ -1,5 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
+import { ShoppingCart, Loader2 } from "lucide-react";
+
 import { SiteShell } from "@/components/site/SiteShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +15,7 @@ import {
   isProductInStock,
   priceForWeight,
 } from "@/lib/catalog";
+import { addToCart } from "@/lib/cart.functions";
 import { SITE, formatEgp } from "@/lib/site-config";
 
 export const Route = createFileRoute("/products/$slug")({
