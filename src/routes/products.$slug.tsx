@@ -32,7 +32,25 @@ function ProductPage() {
   const [variants, setVariants] = useState<ProductVariant[]>([]);
   const [variantId, setVariantId] = useState<string | null>(null);
   const [weight, setWeight] = useState<number>(1000);
+  const [qty, setQty] = useState<number>(1);
   const [loading, setLoading] = useState(true);
+
+  const queryClient = useQueryClient();
+  const addToCartFn = useServerFn(addToCart);
+  const addMutation = useMutation({
+    mutationFn: (vars: {
+      product_id: string;
+      variant_id: string | null;
+      weight_grams: number | null;
+      quantity: number;
+    }) => addToCartFn({ data: vars }),
+    onSuccess: () => {
+      toast.success("تمت الإضافة إلى السلة");
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
 
   useEffect(() => {
     let cancelled = false;
