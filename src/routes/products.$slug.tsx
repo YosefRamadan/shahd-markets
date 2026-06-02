@@ -253,13 +253,56 @@ function ProductPage() {
               </div>
             )}
 
-            <div className="mt-8">
-              <Button size="lg" disabled={!canBuy} className="w-full md:w-auto">
+            <div className="mt-8 space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold">الكمية:</span>
+                <div className="inline-flex items-center rounded-xl border border-border bg-background">
+                  <button
+                    type="button"
+                    className="px-3 py-2 disabled:opacity-50"
+                    disabled={qty <= 1}
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  >
+                    −
+                  </button>
+                  <span className="num w-10 text-center font-semibold">{qty}</span>
+                  <button
+                    type="button"
+                    className="px-3 py-2 disabled:opacity-50"
+                    disabled={qty >= 99}
+                    onClick={() => setQty((q) => Math.min(99, q + 1))}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <Button
+                size="lg"
+                disabled={!canBuy || addMutation.isPending}
+                className="w-full md:w-auto"
+                onClick={() =>
+                  addMutation.mutate({
+                    product_id: product.id,
+                    variant_id: selectedVariant?.id ?? null,
+                    weight_grams:
+                      !selectedVariant && product.is_weight_based ? weight : null,
+                    quantity: qty,
+                  })
+                }
+              >
+                {addMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ShoppingCart className="h-4 w-4" />
+                )}
                 {canBuy ? "أضف إلى السلة" : "غير متوفر"}
               </Button>
-              <p className="mt-3 text-xs text-muted-foreground">
-                السلة وإتمام الطلب سيتم تفعيلهما في الخطوة التالية.
-              </p>
+              {product.is_weight_based && !selectedVariant && (
+                <p className="text-xs text-muted-foreground">
+                  السعر النهائي يُحتسب على الوزن الفعلي عند التحضير.
+                </p>
+              )}
             </div>
           </div>
         </div>
