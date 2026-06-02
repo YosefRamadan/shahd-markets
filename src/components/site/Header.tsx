@@ -1,11 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { LogIn, LogOut, ShoppingCart, User, ShieldCheck, Phone } from "lucide-react";
 import type { Session } from "@supabase/supabase-js";
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site-config";
+import { cartQueryOptions } from "@/lib/cart.queries";
 
 export function Header() {
   const [session, setSession] = useState<Session | null>(null);
