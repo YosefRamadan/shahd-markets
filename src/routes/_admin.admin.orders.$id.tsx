@@ -8,12 +8,8 @@ import { SiteShell } from "@/components/site/SiteShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  getOrder,
-  adminUpdateOrderStatus,
-  STATUS_LABEL_AR,
-  type OrderStatus,
-} from "@/lib/orders";
+import { getOrder, adminUpdateOrderStatus } from "@/lib/orders.functions";
+import { STATUS_LABEL_AR, type OrderStatus } from "@/lib/orders";
 import { formatEgp } from "@/lib/site-config";
 
 export const Route = createFileRoute("/_admin/admin/orders/$id")({
