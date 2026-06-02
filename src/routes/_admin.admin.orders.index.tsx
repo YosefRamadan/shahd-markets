@@ -6,11 +6,8 @@ import { useState } from "react";
 import { SiteShell } from "@/components/site/SiteShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  adminListOrders,
-  STATUS_LABEL_AR,
-  type OrderStatus,
-} from "@/lib/orders";
+import { adminListOrders } from "@/lib/orders.functions";
+import { STATUS_LABEL_AR, type OrderStatus } from "@/lib/orders";
 import { formatEgp } from "@/lib/site-config";
 
 export const Route = createFileRoute("/_admin/admin/orders/")({
