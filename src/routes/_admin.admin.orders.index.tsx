@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 
-import { SiteShell } from "@/components/site/SiteShell";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { adminListOrders } from "@/lib/orders.functions";
@@ -41,7 +41,7 @@ function AdminOrdersPage() {
   });
 
   return (
-    <SiteShell>
+    <>
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">إدارة الطلبات</h1>
@@ -121,6 +121,6 @@ function AdminOrdersPage() {
           </table>
         </div>
       </div>
-    </SiteShell>
+    </>
   );
 }

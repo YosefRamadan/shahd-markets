@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Save } from "lucide-react";
 
-import { SiteShell } from "@/components/site/SiteShell";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -56,7 +56,7 @@ function AdminSettings() {
   });
 
   return (
-    <SiteShell>
+    <>
       <div className="container mx-auto max-w-xl px-4 py-8">
         <h1 className="text-2xl font-bold">إعدادات الطلبات</h1>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -123,6 +123,6 @@ function AdminSettings() {
           </form>
         )}
       </div>
-    </SiteShell>
+    </>
   );
 }

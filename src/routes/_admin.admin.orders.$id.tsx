@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { SiteShell } from "@/components/site/SiteShell";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -57,11 +57,11 @@ function AdminOrderDetails() {
 
   if (isLoading || !order) {
     return (
-      <SiteShell>
+      <>
         <div className="container mx-auto flex min-h-[50vh] items-center justify-center px-4">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
         </div>
-      </SiteShell>
+      </>
     );
   }
 
@@ -69,7 +69,7 @@ function AdminOrderDetails() {
   const next = TRANSITIONS[status];
 
   return (
-    <SiteShell>
+    <>
       <div className="container mx-auto max-w-4xl px-4 py-8">
         <button
           onClick={() => navigate({ to: "/admin/orders" })}
@@ -153,7 +153,7 @@ function AdminOrderDetails() {
           </ul>
         </div>
       </div>
-    </SiteShell>
+    </>
   );
 }
 
