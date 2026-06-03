@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { SiteShell } from "@/components/site/SiteShell";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -195,14 +195,14 @@ function ProductEditor() {
 
   if (loading) {
     return (
-      <SiteShell>
+      <>
         <div className="container mx-auto px-4 py-10">جاري التحميل...</div>
-      </SiteShell>
+      </>
     );
   }
 
   return (
-    <SiteShell>
+    <>
       <div className="container mx-auto px-4 py-10">
         <Link to="/admin/products" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowRight className="h-4 w-4 rotate-180" />
@@ -382,6 +382,6 @@ function ProductEditor() {
           </div>
         )}
       </div>
-    </SiteShell>
+    </>
   );
 }

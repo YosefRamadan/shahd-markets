@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
-import { SiteShell } from "@/components/site/SiteShell";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -52,7 +52,7 @@ function AdminProducts() {
   const visible = filter === "all" ? products : products.filter((p) => p.category_id === filter);
 
   return (
-    <SiteShell>
+    <>
       <div className="container mx-auto px-4 py-10">
         <Link to="/admin" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <ArrowRight className="h-4 w-4 rotate-180" />
@@ -142,6 +142,6 @@ function AdminProducts() {
           </table>
         </div>
       </div>
-    </SiteShell>
+    </>
   );
 }
