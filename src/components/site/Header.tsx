@@ -50,7 +50,7 @@ export function Header() {
             <div className="font-display text-lg font-extrabold text-foreground">
               {SITE.nameAr}
             </div>
-            <div className="text-[11px] text-muted-foreground">توصيل بقالة • {SITE.cityAr}</div>
+            <div className="text-[11px] text-muted-foreground">Shahd Markets • {SITE.cityAr}</div>
           </div>
         </Link>
 
