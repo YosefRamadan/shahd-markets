@@ -88,7 +88,7 @@ export const getDashboardOverview = createServerFn({ method: "GET" }).handler(
     const { data: revOrders } = await supabaseAdmin
       .from("orders")
       .select("id,total,status,created_at,customer_name,customer_phone,user_id")
-      .in("status", REVENUE_STATUSES as unknown as string[]);
+      .in("status", [...REVENUE_STATUSES]);
 
     const revenueAllTime = (revOrders ?? []).reduce(
       (s, o) => s + Number(o.total),

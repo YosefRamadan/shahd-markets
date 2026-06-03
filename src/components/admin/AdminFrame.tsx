@@ -10,14 +10,14 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const NAV = [
+const NAV: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "نظرة عامة", icon: LayoutDashboard, exact: true },
   { to: "/admin/orders", label: "الطلبات", icon: Package },
   { to: "/admin/products", label: "المنتجات", icon: Boxes },
   { to: "/admin/inventory", label: "المخزون", icon: Warehouse },
   { to: "/admin/categories", label: "الأقسام", icon: Layers },
   { to: "/admin/settings", label: "الإعدادات", icon: Settings },
-] as const;
+];
 
 export function AdminFrame({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -40,7 +40,7 @@ export function AdminFrame({ children }: { children: ReactNode }) {
             </div>
             <nav className="flex flex-col gap-1 lg:flex-col">
               {NAV.map(({ to, label, icon: Icon, exact }) => {
-                const active = isActive(to, (exact as boolean | undefined) ?? false);
+                const active = isActive(to, exact);
                 return (
                   <Link
                     key={to}
@@ -48,7 +48,7 @@ export function AdminFrame({ children }: { children: ReactNode }) {
                     className={cn(
                       "flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition-colors",
                       active
-                        ? "bg-primary/15 font-semibold text-primary-foreground"
+                        ? "font-semibold text-primary-foreground"
                         : "text-foreground/80 hover:bg-muted",
                     )}
                     style={active ? { background: "var(--gradient-primary)" } : undefined}
