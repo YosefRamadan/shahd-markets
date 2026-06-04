@@ -21,14 +21,21 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 
-const NAV = [
+type NavItem = {
+  to: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  exact?: boolean;
+};
+
+const NAV: NavItem[] = [
   { to: "/admin", label: "نظرة عامة", icon: LayoutDashboard, exact: true },
   { to: "/admin/orders", label: "الطلبات", icon: Package },
   { to: "/admin/products", label: "المنتجات", icon: Boxes },
   { to: "/admin/inventory", label: "المخزون", icon: Warehouse },
   { to: "/admin/categories", label: "الأقسام", icon: Layers },
   { to: "/admin/settings", label: "الإعدادات", icon: Settings },
-] as const;
+];
 
 function useActive() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
