@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { SiteShell } from "@/components/site/SiteShell";
-import { AdminFrame } from "@/components/admin/AdminFrame";
+import { AdminShell } from "@/components/admin/AdminShell";
 
 export const Route = createFileRoute("/_admin/admin")({
   head: () => ({ meta: [{ title: "لوحة الإدارة — أسواق شهد الفيوم" }] }),
@@ -9,10 +8,8 @@ export const Route = createFileRoute("/_admin/admin")({
 
 function AdminLayout() {
   return (
-    <SiteShell>
-      <AdminFrame>
-        <Outlet />
-      </AdminFrame>
-    </SiteShell>
+    <AdminShell>
+      <Outlet />
+    </AdminShell>
   );
 }
