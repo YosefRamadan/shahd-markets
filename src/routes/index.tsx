@@ -83,7 +83,6 @@ function Index() {
             </div>
             <div className="mt-6 text-sm text-muted-foreground">
               رسوم التوصيل: <span className="num font-semibold text-foreground">{formatEgp(SITE.deliveryFeeEgp)}</span>
-              {" "}• توصيل مجاني للطلبات فوق <span className="num font-semibold text-foreground">{formatEgp(SITE.freeDeliveryThresholdEgp)}</span>
             </div>
           </div>
 
