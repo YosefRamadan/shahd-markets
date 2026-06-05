@@ -73,18 +73,19 @@ function AdminOrdersPage() {
                 <th className="p-3">الإجمالي</th>
                 <th className="p-3">الحالة</th>
                 <th className="p-3">التاريخ</th>
+                <th className="p-3">إجراءات</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="p-6 text-center text-muted-foreground">
+                  <td colSpan={7} className="p-6 text-center text-muted-foreground">
                     جاري التحميل…
                   </td>
                 </tr>
               ) : !data || data.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-6 text-center text-muted-foreground">
+                  <td colSpan={7} className="p-6 text-center text-muted-foreground">
                     لا توجد طلبات
                   </td>
                 </tr>
@@ -104,15 +105,24 @@ function AdminOrdersPage() {
                       </div>
                     </td>
                     <td className="p-3">{o.customer_name}</td>
-                    <td className="p-3" dir="ltr">
-                      {o.customer_phone}
-                    </td>
+                    <td className="p-3 num" dir="ltr">{o.customer_phone}</td>
                     <td className="p-3 tabular-nums">{formatEgp(o.total)}</td>
                     <td className="p-3">
                       <Badge className={TONE[o.status]}>{STATUS_LABEL_AR[o.status]}</Badge>
                     </td>
-                    <td className="p-3 text-xs text-muted-foreground">
+                    <td className="p-3 text-xs text-muted-foreground whitespace-nowrap">
                       {new Date(o.created_at).toLocaleString("ar-EG")}
+                    </td>
+                    <td className="p-3">
+                      <Button asChild size="sm" variant="outline">
+                        <Link
+                          to="/admin/orders/$id/invoice"
+                          params={{ id: o.id }}
+                          target="_blank"
+                        >
+                          طباعة
+                        </Link>
+                      </Button>
                     </td>
                   </tr>
                 ))
