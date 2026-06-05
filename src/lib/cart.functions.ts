@@ -461,17 +461,14 @@ export const getCart = createServerFn({ method: "GET" }).handler(async (): Promi
   const { data: settingsRows } = await supabaseAdmin
     .from("settings")
     .select("key,value")
-    .in("key", ["delivery_fee_egp", "free_delivery_threshold_egp", "min_order_egp"]);
+    .in("key", ["delivery_fee_egp", "min_order_egp"]);
   const settings = new Map((settingsRows ?? []).map((r) => [r.key, r.value as any]));
 
   const delivery_fee_base = Number(settings.get("delivery_fee_egp") ?? SITE.deliveryFeeEgp);
-  const free_delivery_threshold = Number(
-    settings.get("free_delivery_threshold_egp") ?? SITE.freeDeliveryThresholdEgp,
-  );
   const min_order = Number(settings.get("min_order_egp") ?? SITE.minOrderEgp);
 
   const hasItems = lines.some((l) => l.in_stock);
-  const delivery_fee = !hasItems ? 0 : subtotal >= free_delivery_threshold ? 0 : delivery_fee_base;
+  const delivery_fee = !hasItems ? 0 : delivery_fee_base;
   const total = +(subtotal + delivery_fee).toFixed(2);
   const meets_minimum = subtotal >= min_order;
 
@@ -480,7 +477,6 @@ export const getCart = createServerFn({ method: "GET" }).handler(async (): Promi
     lines,
     subtotal,
     delivery_fee,
-    free_delivery_threshold,
     min_order,
     total,
     meets_minimum,
