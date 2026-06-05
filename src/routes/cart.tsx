@@ -131,21 +131,8 @@ function CartPage() {
                 <Row label="الإجمالي الفرعي" value={formatEgp(data.subtotal)} />
                 <Row
                   label="رسوم التوصيل"
-                  value={
-                    data.delivery_fee === 0
-                      ? "مجاني"
-                      : formatEgp(data.delivery_fee)
-                  }
+                  value={formatEgp(data.delivery_fee)}
                 />
-                {data.subtotal < data.free_delivery_threshold && data.subtotal > 0 && (
-                  <p className="text-xs text-muted-foreground">
-                    أضف{" "}
-                    <span className="num font-semibold text-primary">
-                      {formatEgp(data.free_delivery_threshold - data.subtotal)}
-                    </span>{" "}
-                    للحصول على توصيل مجاني
-                  </p>
-                )}
               </div>
               <Separator />
               <Row
