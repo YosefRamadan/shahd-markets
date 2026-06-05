@@ -31,12 +31,15 @@ export function AdminFrame({ children }: { children: ReactNode }) {
       <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
         <aside className="lg:sticky lg:top-20 lg:self-start">
           <div className="rounded-2xl border border-border bg-card p-3 shadow-[var(--shadow-soft)]">
-            <div className="px-3 pb-3 pt-2">
-              <div className="text-xs uppercase tracking-wider text-muted-foreground">
-                لوحة الإدارة
-              </div>
-              <div className="mt-0.5 font-display text-lg font-bold">
-                أسواق شهد
+            <div className="flex items-center gap-2 px-2 pb-3 pt-1">
+              <Logo size={36} />
+              <div className="min-w-0 leading-tight">
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  لوحة الإدارة
+                </div>
+                <div className="truncate font-display text-base font-bold">
+                  أسواق شهد
+                </div>
               </div>
             </div>
             <nav className="flex flex-col gap-1 lg:flex-col">
