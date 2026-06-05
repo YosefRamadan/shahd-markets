@@ -43,11 +43,10 @@ async function loadSettings() {
   const { data } = await supabaseAdmin
     .from("settings")
     .select("key,value")
-    .in("key", ["delivery_fee_egp", "free_delivery_threshold_egp", "min_order_egp"]);
+    .in("key", ["delivery_fee_egp", "min_order_egp"]);
   const m = new Map((data ?? []).map((r) => [r.key, r.value as any]));
   return {
     deliveryFee: Number(m.get("delivery_fee_egp") ?? SITE.deliveryFeeEgp),
-    freeThreshold: Number(m.get("free_delivery_threshold_egp") ?? SITE.freeDeliveryThresholdEgp),
     minOrder: Number(m.get("min_order_egp") ?? SITE.minOrderEgp),
   };
 }
