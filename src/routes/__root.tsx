@@ -95,11 +95,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: "/__l5e/assets-v1/8305fbc9-7b64-4762-aefd-e563101ab8ef/shahd-logo.png" },
+      { rel: "apple-touch-icon", href: "/__l5e/assets-v1/8305fbc9-7b64-4762-aefd-e563101ab8ef/shahd-logo.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800&family=Tajawal:wght@400;500;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        children: `(function(){try{var k='sh_theme';var s=localStorage.getItem(k);var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){}})();`,
       },
     ],
   }),

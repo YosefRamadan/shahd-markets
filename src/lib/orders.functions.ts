@@ -43,11 +43,10 @@ async function loadSettings() {
   const { data } = await supabaseAdmin
     .from("settings")
     .select("key,value")
-    .in("key", ["delivery_fee_egp", "free_delivery_threshold_egp", "min_order_egp"]);
+    .in("key", ["delivery_fee_egp", "min_order_egp"]);
   const m = new Map((data ?? []).map((r) => [r.key, r.value as any]));
   return {
     deliveryFee: Number(m.get("delivery_fee_egp") ?? SITE.deliveryFeeEgp),
-    freeThreshold: Number(m.get("free_delivery_threshold_egp") ?? SITE.freeDeliveryThresholdEgp),
     minOrder: Number(m.get("min_order_egp") ?? SITE.minOrderEgp),
   };
 }
@@ -441,7 +440,6 @@ export const adminUpdateOrderStatus = createServerFn({ method: "POST" })
 const settingsSchema = z.object({
   min_order_egp: z.number().min(0).max(10000),
   delivery_fee_egp: z.number().min(0).max(10000),
-  free_delivery_threshold_egp: z.number().min(0).max(100000),
 });
 
 export const adminUpdateOrderSettings = createServerFn({ method: "POST" })
@@ -451,11 +449,6 @@ export const adminUpdateOrderSettings = createServerFn({ method: "POST" })
     const rows = [
       { key: "min_order_egp", value: data.min_order_egp, is_public: true },
       { key: "delivery_fee_egp", value: data.delivery_fee_egp, is_public: true },
-      {
-        key: "free_delivery_threshold_egp",
-        value: data.free_delivery_threshold_egp,
-        is_public: true,
-      },
     ];
     for (const r of rows) {
       const { error } = await supabaseAdmin

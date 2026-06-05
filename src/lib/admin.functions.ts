@@ -389,3 +389,37 @@ export const updateContactSettings = createServerFn({ method: "POST" })
     }
     return { ok: true as const };
   });
+
+// ============== CONTACT PHONES (multi) ==============
+export const getContactPhones = createServerFn({ method: "GET" }).handler(
+  async (): Promise<string[]> => {
+    const { data } = await supabaseAdmin
+      .from("settings")
+      .select("value")
+      .eq("key", "contact_phones")
+      .maybeSingle();
+    const raw = (data?.value as unknown) ?? [];
+    if (Array.isArray(raw)) return raw.map((v) => String(v)).filter(Boolean);
+    return [];
+  },
+);
+
+const PHONE_RE_LOOSE = /^[+0-9\-\s]{5,20}$/;
+const phonesSchema = z.object({
+  phones: z.array(z.string().trim().regex(PHONE_RE_LOOSE, "رقم غير صالح")).min(1).max(10),
+});
+
+export const updateContactPhones = createServerFn({ method: "POST" })
+  .inputValidator((i: unknown) => phonesSchema.parse(i))
+  .handler(async ({ data }) => {
+    await requireStaff();
+    const cleaned = Array.from(new Set(data.phones.map((p) => p.trim()).filter(Boolean)));
+    const { error } = await supabaseAdmin
+      .from("settings")
+      .upsert(
+        { key: "contact_phones", value: cleaned, is_public: true },
+        { onConflict: "key" },
+      );
+    if (error) throw new Error(error.message);
+    return { ok: true as const, phones: cleaned };
+  });
