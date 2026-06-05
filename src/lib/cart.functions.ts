@@ -352,7 +352,6 @@ export type CartSummary = {
   lines: CartLine[];
   subtotal: number;
   delivery_fee: number;
-  free_delivery_threshold: number;
   min_order: number;
   total: number;
   meets_minimum: boolean;
