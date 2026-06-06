@@ -136,6 +136,12 @@
   --sidebar-accent-foreground: oklch(0.96 0.02 92);
   --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.80 0.13 88);
+
+  /* Dark-mode surfaces & shadows (override :root defaults) */
+  --gradient-primary: linear-gradient(135deg, oklch(0.60 0.14 88), oklch(0.48 0.12 80));
+  --gradient-soft: linear-gradient(180deg, oklch(0.20 0.03 80), oklch(0.24 0.035 80));
+  --shadow-soft: 0 4px 16px -6px oklch(0 0 0 / 0.45);
+  --shadow-elegant: 0 12px 40px -12px oklch(0 0 0 / 0.55);
 }
 
 @layer base {
