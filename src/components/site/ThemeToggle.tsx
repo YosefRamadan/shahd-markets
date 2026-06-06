@@ -19,16 +19,25 @@ export function applyTheme(theme: Theme) {
 }
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  // Initialize state from the actual DOM class set by the pre-paint script,
+  // so the first click always flips to the *opposite* of what the user sees.
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof document === "undefined") return "light";
+    return document.documentElement.classList.contains("dark") ? "dark" : "light";
+  });
 
   useEffect(() => {
+    // Re-sync after hydration in case the DOM and the saved preference disagree.
     const t = getInitialTheme();
+    const domIsDark = document.documentElement.classList.contains("dark");
+    const current: Theme = domIsDark ? "dark" : "light";
+    if (current !== t) applyTheme(t);
     setTheme(t);
-    applyTheme(t);
   }, []);
 
   function toggle() {
-    const next: Theme = theme === "dark" ? "light" : "dark";
+    const domIsDark = document.documentElement.classList.contains("dark");
+    const next: Theme = domIsDark ? "light" : "dark";
     setTheme(next);
     applyTheme(next);
     try { window.localStorage.setItem(KEY, next); } catch {}
