@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import type { Database } from "@/integrations/supabase/types";
+import { getRequiredRuntimeEnv } from "@/lib/cloudflare-env";
 import { SITE } from "@/lib/site-config";
 import type { OrderStatus } from "@/lib/orders";
 
@@ -19,8 +20,8 @@ async function getOptionalUserId(): Promise<string | null> {
   if (!token) return null;
   try {
     const client = createClient<Database>(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PUBLISHABLE_KEY!,
+      getRequiredRuntimeEnv("SUPABASE_URL"),
+      getRequiredRuntimeEnv("SUPABASE_PUBLISHABLE_KEY"),
       { auth: { persistSession: false, autoRefreshToken: false } },
     );
     const { data, error } = await client.auth.getClaims(token);

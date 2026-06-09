@@ -1,0 +1,15 @@
+name = "shahd-markets"
+compatibility_date = "2026-06-09"
+pages_build_output_dir = "./.output/public"
+
+[vars]
+# Public Supabase values are safe to expose to the browser. Set matching
+# production values in the Cloudflare Pages dashboard as well.
+VITE_SUPABASE_URL = "https://your-project.supabase.co"
+VITE_SUPABASE_PROJECT_ID = "your-project-ref"
+VITE_SUPABASE_PUBLISHABLE_KEY = "your-supabase-anon-or-publishable-key"
+SUPABASE_URL = "https://your-project.supabase.co"
+SUPABASE_PUBLISHABLE_KEY = "your-supabase-anon-or-publishable-key"
+
+# Secrets must be configured with Wrangler or in the Cloudflare dashboard:
+# wrangler pages secret put SUPABASE_SERVICE_ROLE_KEY
