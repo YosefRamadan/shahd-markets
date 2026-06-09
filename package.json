@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit",
     "deploy:cloudflare": "bun run build && bunx wrangler pages deploy .output/public --project-name shahd-markets",
     "deploy": "bun run deploy:cloudflare"
+    "deploy:cloudflare": "bunx wrangler pages deploy .output/public --project-name shahd-markets"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
