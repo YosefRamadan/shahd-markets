@@ -1,6 +1,7 @@
 import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
+import { setCloudflareRuntimeEnv } from "./lib/cloudflare-env";
 import { renderErrorPage } from "./lib/error-page";
 
 type ServerEntry = {
@@ -39,6 +40,7 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    setCloudflareRuntimeEnv(env);
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
