@@ -11,6 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
+    "deploy:cloudflare": "bun run build && bunx wrangler pages deploy .output/public --project-name shahd-markets",
+    "deploy": "bun run deploy:cloudflare"
     "deploy:cloudflare": "bunx wrangler pages deploy .output/public --project-name shahd-markets"
   },
   "dependencies": {

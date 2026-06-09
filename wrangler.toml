@@ -1,6 +1,18 @@
 name = "shahd-markets"
 compatibility_date = "2026-06-09"
 pages_build_output_dir = "./.output/public"
+send_metrics = false
+
+# This is a Cloudflare Pages configuration file.
+# Do not add `main` or `[assets]` here just to satisfy `wrangler deploy`:
+# `wrangler deploy` deploys Workers, not Pages, and will fail or target the
+# wrong product for this app. Use one of these instead:
+#   bun run deploy:cloudflare
+#   bunx wrangler pages deploy .output/public --project-name shahd-markets
+#
+# Configure environment variables and secrets in the Cloudflare Pages dashboard
+# or with `wrangler pages secret put` / Pages project settings. See
+# .env.example and CLOUDFLARE.md for the required Supabase bindings.
 
 [vars]
 # Public Supabase values are safe to expose to the browser. Set matching
