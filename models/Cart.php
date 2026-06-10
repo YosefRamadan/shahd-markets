@@ -1,0 +1,18 @@
+<?php
+class Cart extends Model
+{
+    public function sessionId(): string { if(empty($_COOKIE[$GLOBALS['config']['app']['cart_cookie']])){ $sid=bin2hex(random_bytes(16)); setcookie($GLOBALS['config']['app']['cart_cookie'],$sid,time()+60*60*24*30,'/','',!empty($_SERVER['HTTPS']),true); $_COOKIE[$GLOBALS['config']['app']['cart_cookie']]=$sid; } return $_COOKIE[$GLOBALS['config']['app']['cart_cookie']]; }
+    private function ownerSql(array &$p): string { if(current_user()){ $p[]=(int)current_user()['id']; return 'user_id=?'; } $p[]=$this->sessionId(); return 'session_id=?'; }
+    public function add(int $productId, ?int $variantId, ?int $weight, int $qty): void { $prod=(new Product())->find($productId); if(!$prod || !$prod['is_active']) throw new RuntimeException('المنتج غير متوفر'); $variant=null; if($variantId){ foreach((new Product())->variants($productId,true) as $v) if((int)$v['id']===$variantId) $variant=$v; if(!$variant) throw new RuntimeException('الاختيار غير متوفر'); $price=(float)$variant['price']; $available=(int)$variant['stock']; } elseif($prod['is_weight_based']) { $options=array_filter(array_map('intval', explode(',', $prod['weight_options_grams']))); if(!in_array($weight,$options,true)) throw new RuntimeException('الوزن غير متوفر'); $price=price_for_weight((float)$prod['price_per_kg'], (int)$weight); $available=(int)$prod['stock']; } else { $price=(float)$prod['base_price']; $available=(int)$prod['stock']; }
+        if($qty<1 || $qty>$available) throw new RuntimeException('الكمية المطلوبة غير متاحة');
+        $uid=current_user()['id'] ?? null; $sid=$uid?null:$this->sessionId();
+        $st=$this->db->prepare('SELECT id,quantity FROM cart_items WHERE '.($uid?'user_id=?':'session_id=?').' AND product_id=? AND '.($variantId?'variant_id=?':'variant_id IS NULL').' AND '.($weight?'weight_grams=?':'weight_grams IS NULL').' LIMIT 1');
+        $params=[$uid?:$sid,$productId]; if($variantId)$params[]=$variantId; if($weight)$params[]=$weight; $st->execute($params); $row=$st->fetch();
+        if($row) $this->db->prepare('UPDATE cart_items SET quantity=LEAST(quantity+?, ?), unit_price=? WHERE id=?')->execute([$qty,$available,$price,$row['id']]);
+        else $this->db->prepare('INSERT INTO cart_items(user_id,session_id,product_id,variant_id,weight_grams,quantity,unit_price) VALUES(?,?,?,?,?,?,?)')->execute([$uid,$sid,$productId,$variantId,$weight,$qty,$price]); }
+    public function items(): array { $p=[]; $owner=$this->ownerSql($p); $st=$this->db->prepare("SELECT ci.*,p.name_ar product_name,p.slug,p.image_url,p.is_weight_based,v.name_ar variant_name FROM cart_items ci JOIN products p ON p.id=ci.product_id LEFT JOIN product_variants v ON v.id=ci.variant_id WHERE $owner ORDER BY ci.created_at DESC"); $st->execute($p); return $st->fetchAll(); }
+    public function totals(): array { $subtotal=0; foreach($this->items() as $i) $subtotal += $i['unit_price']*$i['quantity']; $fee=(float)setting('delivery_fee_egp',20); $min=(float)setting('min_order_egp',100); return ['subtotal'=>$subtotal,'delivery_fee'=>$subtotal>0?$fee:0,'total'=>$subtotal+($subtotal>0?$fee:0),'min_order'=>$min]; }
+    public function updateQty(int $id, int $qty): void { $p=[];$owner=$this->ownerSql($p); if($qty<1){$this->remove($id);return;} $p=[$qty,...$p,$id]; $this->db->prepare("UPDATE cart_items SET quantity=? WHERE $owner AND id=?")->execute($p); }
+    public function remove(int $id): void { $p=[];$owner=$this->ownerSql($p); $p[]=$id; $this->db->prepare("DELETE FROM cart_items WHERE $owner AND id=?")->execute($p); }
+    public function clear(): void { $p=[];$owner=$this->ownerSql($p); $this->db->prepare("DELETE FROM cart_items WHERE $owner")->execute($p); }
+}
