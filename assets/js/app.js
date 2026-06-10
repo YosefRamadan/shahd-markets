@@ -1,0 +1,1 @@
+document.addEventListener('click',e=>{const b=e.target.closest('[data-add-variant]');if(b){const row=b.closest('.variant-row');const wrap=document.querySelector('#variants');const clone=row.cloneNode(true);clone.querySelectorAll('input').forEach(i=>i.value='');wrap.appendChild(clone)}});
