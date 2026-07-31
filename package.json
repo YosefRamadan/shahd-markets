@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "أسواق شهد الفيوم — Shahd Markets. PHP 8 + MySQL storefront for InfinityFree shared hosting. No Node.js build step; these scripts exist only so the Lovable harness has valid tasks.",
   "scripts": {
-    "dev": "python3 -m http.server 8080 --bind 0.0.0.0 --directory .lovable/preview",
+    "dev": "bash .lovable/dev.sh",
     "build": "echo 'PHP project: no build step required.'",
     "build:dev": "echo 'PHP project: no build step required.'",
     "typecheck": "echo 'PHP project: no TypeScript typecheck.'",
