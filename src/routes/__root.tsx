@@ -90,13 +90,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "أسواق شهد الفيوم" },
       { name: "twitter:description", content: "متجر أسواق شهد الفيوم — توصيل البقالة والمنتجات الطازجة داخل الفيوم." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f3b4fdc5-7719-446d-9f18-fdd4593d1a48/id-preview-2630fc53--aab9b48e-a131-467c-80f3-70d490e3f0e2.lovable.app-1780446237925.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f3b4fdc5-7719-446d-9f18-fdd4593d1a48/id-preview-2630fc53--aab9b48e-a131-467c-80f3-70d490e3f0e2.lovable.app-1780446237925.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/png", href: "/__l5e/assets-v1/8305fbc9-7b64-4762-aefd-e563101ab8ef/shahd-logo.png" },
-      { rel: "apple-touch-icon", href: "/__l5e/assets-v1/8305fbc9-7b64-4762-aefd-e563101ab8ef/shahd-logo.png" },
+      { rel: "icon", type: "image/png", href: "/shahd-logo.png" },
+      { rel: "apple-touch-icon", href: "/shahd-logo.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
