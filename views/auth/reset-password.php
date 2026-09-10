@@ -1,1 +1,0 @@
-<div class="container py-5" style="max-width:560px"><h1>تعيين كلمة مرور جديدة</h1><form method="post" class="card card-body"><?= csrf_field() ?><input type="hidden" name="token" value="<?= e($token) ?>"><input name="password" type="password" minlength="8" required class="form-control mb-3" placeholder="كلمة المرور الجديدة"><button class="btn btn-success">حفظ</button></form></div>

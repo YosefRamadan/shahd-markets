@@ -1,1 +1,0 @@
-<div class="container py-5"><nav><a href="<?= url('/') ?>">الرئيسية</a> / <?= e($category['name_ar']) ?></nav><h1 class="mt-2"><?= e($category['name_ar']) ?></h1><div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mt-3"><?php foreach($products as $p) require __DIR__.'/_product-card.php'; ?></div></div>
