@@ -12,12 +12,12 @@ import { resolveLoginIdentifier } from "@/lib/auth.functions";
 import { loginSchema } from "@/lib/validators";
 
 export const Route = createFileRoute("/login")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    redirect: typeof s.redirect === "string" ? s.redirect : "/account",
+  validateSearch: (s: Record<string, unknown>): { redirect?: string } => ({
+    redirect: typeof s.redirect === "string" ? s.redirect : undefined,
   }),
   beforeLoad: async ({ search }) => {
     const { data } = await supabase.auth.getUser();
-    if (data.user) throw redirect({ to: search.redirect });
+    if (data.user) throw redirect({ to: search.redirect ?? "/account" });
   },
   head: () => ({ meta: [{ title: "تسجيل الدخول — أسواق شهد الفيوم" }] }),
   component: LoginPage,
@@ -55,7 +55,7 @@ function LoginPage() {
         return;
       }
       toast.success("أهلًا بك مجددًا");
-      navigate({ to: search.redirect, replace: true });
+      navigate({ to: search.redirect ?? "/account", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "تعذر تسجيل الدخول");
     } finally {
