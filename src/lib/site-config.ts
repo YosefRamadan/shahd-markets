@@ -2,7 +2,7 @@
  * Store-wide constants. Anything also stored in `public.settings` is a fallback;
  * the live value should be read from the database for the storefront.
  */
-import logoAsset from "@/assets/shahd-logo.png.asset.json";
+
 
 export const SITE = {
   nameAr: "أسواق شهد الفيوم",
@@ -16,7 +16,8 @@ export const SITE = {
   currencyAr: "ج.م",
   deliveryFeeEgp: 20,
   minOrderEgp: 50,
-  logoUrl: logoAsset.url,
+  // Served from /public so the app stays portable across any host.
+  logoUrl: "/shahd-logo.png",
 } as const;
 
 export function formatEgp(value: number): string {

@@ -1,4 +1,4 @@
-import logo from "@/assets/shahd-logo.png.asset.json";
+import { SITE } from "@/lib/site-config";
 
 type Props = {
   size?: number;
@@ -9,7 +9,7 @@ type Props = {
 export function Logo({ size = 40, className, alt = "أسواق شهد الفيوم - Shahd Markets" }: Props) {
   return (
     <img
-      src={logo.url}
+      src={SITE.logoUrl}
       alt={alt}
       width={size}
       height={size}
