@@ -195,9 +195,12 @@ export type Database = {
           customer_phone: string
           delivered_at: string | null
           delivery_fee: number
+          discount: number
           id: string
           notes: string | null
           order_number: string
+          payment_method: string
+          seller_snapshot: Json | null
           session_id: string | null
           status: Database["public"]["Enums"]["order_status"]
           stock_deducted: boolean
@@ -215,9 +218,12 @@ export type Database = {
           customer_phone: string
           delivered_at?: string | null
           delivery_fee?: number
+          discount?: number
           id?: string
           notes?: string | null
           order_number: string
+          payment_method?: string
+          seller_snapshot?: Json | null
           session_id?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           stock_deducted?: boolean
@@ -235,9 +241,12 @@ export type Database = {
           customer_phone?: string
           delivered_at?: string | null
           delivery_fee?: number
+          discount?: number
           id?: string
           notes?: string | null
           order_number?: string
+          payment_method?: string
+          seller_snapshot?: Json | null
           session_id?: string | null
           status?: Database["public"]["Enums"]["order_status"]
           stock_deducted?: boolean
