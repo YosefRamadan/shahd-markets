@@ -1,0 +1,290 @@
+/* Invoice print stylesheet — imported only by the invoice page.
+   Deliberately plain: black on white, no shadows/gradients, RTL-safe. */
+
+.inv {
+  background: #fff;
+  color: #000;
+  font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+  direction: rtl;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.inv * {
+  box-sizing: border-box;
+}
+.inv-num,
+.inv-col-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----------------------------- A4 ----------------------------- */
+.inv-a4 {
+  width: 100%;
+  max-width: 190mm;
+  padding: 6mm;
+  font-size: 12pt;
+  line-height: 1.5;
+}
+.inv-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8mm;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #000;
+  padding-bottom: 4mm;
+}
+.inv-head-brand {
+  display: flex;
+  gap: 4mm;
+  align-items: flex-start;
+  min-width: 0;
+}
+.inv-logo {
+  width: 20mm;
+  height: 20mm;
+  object-fit: contain;
+}
+.inv-store {
+  font-size: 16pt;
+  font-weight: 800;
+  margin: 0;
+}
+.inv-meta {
+  font-size: 9.5pt;
+  color: #333;
+  word-break: break-word;
+}
+.inv-head-doc {
+  text-align: left;
+}
+.inv-title {
+  font-size: 15pt;
+  font-weight: 800;
+}
+.inv-number {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.inv-chip {
+  display: inline-block;
+  margin-top: 1mm;
+  border: 1px solid #000;
+  border-radius: 999px;
+  padding: 0 2mm;
+  font-size: 9pt;
+}
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5mm;
+  margin-top: 5mm;
+  font-size: 10.5pt;
+}
+.inv-h2 {
+  font-size: 10.5pt;
+  font-weight: 700;
+  margin: 0 0 1mm;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 1mm;
+}
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6mm;
+  font-size: 10.5pt;
+  table-layout: fixed;
+}
+.inv-table th,
+.inv-table td {
+  border: 1px solid #999;
+  padding: 2mm;
+  vertical-align: top;
+}
+.inv-table thead th {
+  background: #f1f1f1;
+  text-align: right;
+  font-weight: 700;
+}
+.inv-col-name {
+  width: auto;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.inv-col-num {
+  width: 24mm;
+  text-align: center;
+}
+.inv-totals {
+  margin: 5mm 0 0 auto;
+  width: 75mm;
+  max-width: 100%;
+  font-size: 11pt;
+}
+.inv-total-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 4mm;
+  padding: 1mm 0;
+}
+.inv-total-strong {
+  border-top: 2px solid #000;
+  margin-top: 1mm;
+  padding-top: 2mm;
+  font-size: 13pt;
+  font-weight: 800;
+}
+.inv-foot {
+  margin-top: 8mm;
+  border-top: 1px solid #bbb;
+  padding-top: 3mm;
+  text-align: center;
+  font-size: 9.5pt;
+  color: #333;
+}
+
+/* --------------------------- Thermal --------------------------- */
+.inv-thermal {
+  font-family: "Tajawal", "Cairo", system-ui, sans-serif;
+  color: #000;
+  line-height: 1.35;
+  padding: 2mm 1mm;
+}
+.inv-t80 {
+  width: 72mm;
+  font-size: 10pt;
+}
+.inv-t58 {
+  width: 48mm;
+  font-size: 8.5pt;
+}
+.inv-t-center {
+  text-align: center;
+  word-break: break-word;
+}
+.inv-t-logo {
+  width: 16mm;
+  height: 16mm;
+  object-fit: contain;
+  filter: grayscale(100%) contrast(140%);
+  margin: 0 auto 1mm;
+  display: block;
+}
+.inv-t58 .inv-t-logo {
+  width: 13mm;
+  height: 13mm;
+}
+.inv-t-store {
+  font-weight: 800;
+  font-size: 1.15em;
+}
+.inv-t-rule {
+  border-top: 1px dashed #000;
+  margin: 1.5mm 0;
+}
+.inv-t-kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 2mm;
+  align-items: baseline;
+}
+.inv-t-kv > span:last-child {
+  text-align: left;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.inv-t-wrap {
+  max-width: 60%;
+}
+.inv-t-addr {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.inv-t-item {
+  margin-bottom: 1mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.inv-t-item-name {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.inv-t-item-calc {
+  display: flex;
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+.inv-t-total {
+  font-weight: 800;
+  font-size: 1.15em;
+  margin-top: 1mm;
+}
+.inv-t-thanks {
+  font-size: 0.95em;
+}
+
+/* ---------------------------- Print ---------------------------- */
+@media print {
+  html,
+  body {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .no-print,
+  header.app-header,
+  nav,
+  footer.app-footer {
+    display: none !important;
+  }
+  .inv {
+    margin: 0;
+    box-shadow: none !important;
+  }
+  .inv-table thead {
+    display: table-header-group;
+  }
+  .inv-table tr,
+  .inv-t-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .inv-totals,
+  .inv-t-total {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* Page geometry per format; the active class is set on <html>. */
+@media print {
+  .print-a4 .inv-a4 {
+    max-width: none;
+    padding: 0;
+  }
+  .print-t80 .inv-thermal,
+  .print-t58 .inv-thermal {
+    padding: 0;
+  }
+}
+@page a4-page {
+  size: A4;
+  margin: 10mm;
+}
+@page t80-page {
+  size: 80mm auto;
+  margin: 2mm;
+}
+@page t58-page {
+  size: 58mm auto;
+  margin: 2mm;
+}
+.print-a4 {
+  page: a4-page;
+}
+.print-t80 {
+  page: t80-page;
+}
+.print-t58 {
+  page: t58-page;
+}
