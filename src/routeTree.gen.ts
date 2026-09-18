@@ -27,6 +27,7 @@ import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticate
 import { Route as AdminAdminRouteImport } from './routes/_admin.admin'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated.account.index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
+import { Route as OrdersIdInvoiceRouteImport } from './routes/orders.$id.invoice'
 import { Route as AuthenticatedAccountOrdersRouteImport } from './routes/_authenticated.account.orders'
 import { Route as AdminAdminSettingsRouteImport } from './routes/_admin.admin.settings'
 import { Route as AdminAdminInventoryRouteImport } from './routes/_admin.admin.inventory'
@@ -126,6 +127,11 @@ const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminAdminRoute,
 } as any)
+const OrdersIdInvoiceRoute = OrdersIdInvoiceRouteImport.update({
+  id: '/invoice',
+  path: '/invoice',
+  getParentRoute: () => OrdersIdRoute,
+} as any)
 const AuthenticatedAccountOrdersRoute =
   AuthenticatedAccountOrdersRouteImport.update({
     id: '/orders',
@@ -186,13 +192,14 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthenticatedAccountRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/categories/$slug': typeof CategoriesSlugRoute
-  '/orders/$id': typeof OrdersIdRoute
+  '/orders/$id': typeof OrdersIdRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/categories/': typeof CategoriesIndexRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
   '/admin/inventory': typeof AdminAdminInventoryRoute
   '/admin/settings': typeof AdminAdminSettingsRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
+  '/orders/$id/invoice': typeof OrdersIdInvoiceRoute
   '/admin/': typeof AdminAdminIndexRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/admin/orders/$id': typeof AdminAdminOrdersIdRouteWithChildren
@@ -211,13 +218,14 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/categories/$slug': typeof CategoriesSlugRoute
-  '/orders/$id': typeof OrdersIdRoute
+  '/orders/$id': typeof OrdersIdRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/categories': typeof CategoriesIndexRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
   '/admin/inventory': typeof AdminAdminInventoryRoute
   '/admin/settings': typeof AdminAdminSettingsRoute
   '/account/orders': typeof AuthenticatedAccountOrdersRoute
+  '/orders/$id/invoice': typeof OrdersIdInvoiceRoute
   '/admin': typeof AdminAdminIndexRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/admin/orders/$id': typeof AdminAdminOrdersIdRouteWithChildren
@@ -241,13 +249,14 @@ export interface FileRoutesById {
   '/_authenticated/account': typeof AuthenticatedAccountRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/categories/$slug': typeof CategoriesSlugRoute
-  '/orders/$id': typeof OrdersIdRoute
+  '/orders/$id': typeof OrdersIdRouteWithChildren
   '/products/$slug': typeof ProductsSlugRoute
   '/categories/': typeof CategoriesIndexRoute
   '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
   '/_admin/admin/inventory': typeof AdminAdminInventoryRoute
   '/_admin/admin/settings': typeof AdminAdminSettingsRoute
   '/_authenticated/account/orders': typeof AuthenticatedAccountOrdersRoute
+  '/orders/$id/invoice': typeof OrdersIdInvoiceRoute
   '/_admin/admin/': typeof AdminAdminIndexRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_admin/admin/orders/$id': typeof AdminAdminOrdersIdRouteWithChildren
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/settings'
     | '/account/orders'
+    | '/orders/$id/invoice'
     | '/admin/'
     | '/account/'
     | '/admin/orders/$id'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/settings'
     | '/account/orders'
+    | '/orders/$id/invoice'
     | '/admin'
     | '/account'
     | '/admin/orders/$id'
@@ -331,6 +342,7 @@ export interface FileRouteTypes {
     | '/_admin/admin/inventory'
     | '/_admin/admin/settings'
     | '/_authenticated/account/orders'
+    | '/orders/$id/invoice'
     | '/_admin/admin/'
     | '/_authenticated/account/'
     | '/_admin/admin/orders/$id'
@@ -352,7 +364,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
   CategoriesSlugRoute: typeof CategoriesSlugRoute
-  OrdersIdRoute: typeof OrdersIdRoute
+  OrdersIdRoute: typeof OrdersIdRouteWithChildren
   ProductsSlugRoute: typeof ProductsSlugRoute
   CategoriesIndexRoute: typeof CategoriesIndexRoute
 }
@@ -484,6 +496,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminAdminIndexRouteImport
       parentRoute: typeof AdminAdminRoute
+    }
+    '/orders/$id/invoice': {
+      id: '/orders/$id/invoice'
+      path: '/invoice'
+      fullPath: '/orders/$id/invoice'
+      preLoaderRoute: typeof OrdersIdInvoiceRouteImport
+      parentRoute: typeof OrdersIdRoute
     }
     '/_authenticated/account/orders': {
       id: '/_authenticated/account/orders'
@@ -623,6 +642,18 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface OrdersIdRouteChildren {
+  OrdersIdInvoiceRoute: typeof OrdersIdInvoiceRoute
+}
+
+const OrdersIdRouteChildren: OrdersIdRouteChildren = {
+  OrdersIdInvoiceRoute: OrdersIdInvoiceRoute,
+}
+
+const OrdersIdRouteWithChildren = OrdersIdRoute._addFileChildren(
+  OrdersIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
@@ -635,7 +666,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
   CategoriesSlugRoute: CategoriesSlugRoute,
-  OrdersIdRoute: OrdersIdRoute,
+  OrdersIdRoute: OrdersIdRouteWithChildren,
   ProductsSlugRoute: ProductsSlugRoute,
   CategoriesIndexRoute: CategoriesIndexRoute,
 }
