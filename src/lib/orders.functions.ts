@@ -177,6 +177,10 @@ export const createOrder = createServerFn({ method: "POST" })
     if (numErr) throw new Error(numErr.message);
     const order_number = numData as unknown as string;
 
+    // Immutable seller identity at order time — invoices must never change later.
+    const { buildSellerFromSettings } = await import("@/lib/store-profile.server");
+    const seller_snapshot = await buildSellerFromSettings();
+
     const { data: order, error: orderErr } = await supabaseAdmin
       .from("orders")
       .insert({
@@ -193,6 +197,7 @@ export const createOrder = createServerFn({ method: "POST" })
         delivery_fee,
         total,
         stock_deducted: false,
+        seller_snapshot: seller_snapshot as unknown as any,
       })
       .select("id,order_number")
       .single();

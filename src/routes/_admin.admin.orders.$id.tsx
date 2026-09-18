@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Printer } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -85,7 +85,14 @@ function AdminOrderDetails() {
               {new Date(order.created_at).toLocaleString("ar-EG")}
             </p>
           </div>
-          <Badge className={TONE[status]}>{STATUS_LABEL_AR[status]}</Badge>
+          <div className="flex items-center gap-2">
+            <Button asChild variant="outline" size="sm">
+              <Link to="/admin/orders/$id/invoice" params={{ id }}>
+                <Printer className="h-4 w-4" /> طباعة الفاتورة
+              </Link>
+            </Button>
+            <Badge className={TONE[status]}>{STATUS_LABEL_AR[status]}</Badge>
+          </div>
         </div>
 
         {next.length > 0 && (
