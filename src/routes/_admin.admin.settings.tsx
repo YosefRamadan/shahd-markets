@@ -45,6 +45,10 @@ function AdminSettings() {
     store_name_ar: "",
     store_city_ar: "",
     working_hours_ar: "",
+    store_address_ar: "",
+    store_email: "",
+    tax_registration_number: "",
+    commercial_registration_number: "",
   });
   const [phones, setPhones] = useState<string[]>([]);
 
