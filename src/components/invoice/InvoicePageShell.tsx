@@ -2,7 +2,7 @@
  * Shared chrome around the invoice: format chooser + print button.
  * The invoice itself is rendered by InvoiceDocumentView (one renderer, all audiences).
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, Printer } from "lucide-react";
@@ -30,6 +30,14 @@ export function InvoicePageShell({
     queryKey: ["invoice", id],
     queryFn: () => getFn({ data: { id } }),
   });
+
+  // The @page geometry is selected by a class on <html>.
+  useEffect(() => {
+    const el = document.documentElement;
+    const cls = `print-${format}`;
+    el.classList.add(cls);
+    return () => el.classList.remove(cls);
+  }, [format]);
 
   if (isLoading) {
     return (
@@ -74,7 +82,7 @@ export function InvoicePageShell({
         </div>
       </div>
 
-      <div className="invoice-stage">
+      <div className="invoice-stage mx-auto flex justify-center px-2 pb-10 print:p-0">
         <InvoiceDocumentView
           invoice={data.invoice}
           format={format}
