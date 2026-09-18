@@ -212,6 +212,28 @@ function AdminSettings() {
                       onChange={(e) => setContact({ ...contact, whatsapp_number: e.target.value })} />
                   </div>
                 </div>
+                <div>
+                  <Label>عنوان المتجر (يظهر على الفاتورة)</Label>
+                  <Input className="mt-1" value={contact.store_address_ar}
+                    onChange={(e) => setContact({ ...contact, store_address_ar: e.target.value })} />
+                </div>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div>
+                    <Label>البريد الإلكتروني</Label>
+                    <Input className="mt-1" dir="ltr" value={contact.store_email}
+                      onChange={(e) => setContact({ ...contact, store_email: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label>الرقم الضريبي</Label>
+                    <Input className="num mt-1" dir="ltr" value={contact.tax_registration_number}
+                      onChange={(e) => setContact({ ...contact, tax_registration_number: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label>السجل التجاري</Label>
+                    <Input className="num mt-1" dir="ltr" value={contact.commercial_registration_number}
+                      onChange={(e) => setContact({ ...contact, commercial_registration_number: e.target.value })} />
+                  </div>
+                </div>
                 <Button type="submit" disabled={contactMut.isPending} className="w-full sm:w-auto">
                   {contactMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : (<><Save className="ml-1 h-4 w-4" /> حفظ</>)}
                 </Button>
