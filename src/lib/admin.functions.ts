@@ -344,27 +344,42 @@ export type ContactSettings = {
   store_name_ar: string;
   store_city_ar: string;
   working_hours_ar: string;
+  store_address_ar: string;
+  store_email: string;
+  tax_registration_number: string;
+  commercial_registration_number: string;
 };
+
+const CONTACT_KEYS = [
+  "contact_phone",
+  "whatsapp_number",
+  "store_name_ar",
+  "store_city_ar",
+  "working_hours_ar",
+  "store_address_ar",
+  "store_email",
+  "tax_registration_number",
+  "commercial_registration_number",
+] as const;
 
 export const getContactSettings = createServerFn({ method: "GET" }).handler(
   async (): Promise<ContactSettings> => {
     const { data } = await supabaseAdmin
       .from("settings")
       .select("key,value")
-      .in("key", [
-        "contact_phone",
-        "whatsapp_number",
-        "store_name_ar",
-        "store_city_ar",
-        "working_hours_ar",
-      ]);
+      .in("key", [...CONTACT_KEYS]);
     const m = new Map((data ?? []).map((r) => [r.key, r.value as any]));
+    const s = (k: string) => String(m.get(k) ?? "");
     return {
-      contact_phone: String(m.get("contact_phone") ?? ""),
-      whatsapp_number: String(m.get("whatsapp_number") ?? ""),
-      store_name_ar: String(m.get("store_name_ar") ?? ""),
-      store_city_ar: String(m.get("store_city_ar") ?? ""),
-      working_hours_ar: String(m.get("working_hours_ar") ?? ""),
+      contact_phone: s("contact_phone"),
+      whatsapp_number: s("whatsapp_number"),
+      store_name_ar: s("store_name_ar"),
+      store_city_ar: s("store_city_ar"),
+      working_hours_ar: s("working_hours_ar"),
+      store_address_ar: s("store_address_ar"),
+      store_email: s("store_email"),
+      tax_registration_number: s("tax_registration_number"),
+      commercial_registration_number: s("commercial_registration_number"),
     };
   },
 );
@@ -375,6 +390,10 @@ const contactSchema = z.object({
   store_name_ar: z.string().trim().min(2).max(80),
   store_city_ar: z.string().trim().min(2).max(60),
   working_hours_ar: z.string().trim().min(2).max(200),
+  store_address_ar: z.string().trim().max(200).default(""),
+  store_email: z.string().trim().max(120).default(""),
+  tax_registration_number: z.string().trim().max(50).default(""),
+  commercial_registration_number: z.string().trim().max(50).default(""),
 });
 
 export const updateContactSettings = createServerFn({ method: "POST" })
