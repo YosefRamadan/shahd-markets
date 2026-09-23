@@ -303,6 +303,9 @@
     position: absolute;
     top: 0;
     inset-inline-start: 0;
+  }
+  /* A4 fills the sheet; thermal keeps its own narrow roll width. */
+  html.printing-invoice.print-a4 .inv {
     width: 100%;
   }
 }
