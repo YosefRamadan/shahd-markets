@@ -12,8 +12,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { resolveLoginIdentifier } from "@/lib/auth.functions";
 import { loginSchema } from "@/lib/validators";
 
+function safePath(v: unknown): string | undefined {
+  // Only same-origin absolute paths may be used as a post-login destination.
+  return typeof v === "string" && v.startsWith("/") && !v.startsWith("//") ? v : undefined;
+}
+
 export const Route = createFileRoute("/admin/login")({
-  beforeLoad: async () => {
+  validateSearch: (s: Record<string, unknown>) => ({ redirect: safePath(s.redirect) }),
+  beforeLoad: async ({ search }) => {
     const { data } = await supabase.auth.getUser();
     if (data.user) {
       const { data: roles } = await supabase
@@ -21,7 +27,7 @@ export const Route = createFileRoute("/admin/login")({
         .select("role")
         .eq("user_id", data.user.id);
       const ok = roles?.some((r) => r.role === "admin" || r.role === "manager");
-      if (ok) throw redirect({ to: "/admin" });
+      if (ok) throw redirect({ href: search.redirect ?? "/admin" });
     }
   },
   head: () => ({ meta: [{ title: "دخول الإدارة — أسواق شهد الفيوم" }] }),
@@ -30,6 +36,7 @@ export const Route = createFileRoute("/admin/login")({
 
 function AdminLoginPage() {
   const navigate = useNavigate();
+  const { redirect: next } = Route.useSearch();
   const resolve = useServerFn(resolveLoginIdentifier);
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -64,7 +71,7 @@ function AdminLoginPage() {
         return;
       }
       toast.success("مرحبًا بك في لوحة الإدارة");
-      navigate({ to: "/admin", replace: true });
+      navigate({ href: next ?? "/admin", replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "تعذر تسجيل الدخول");
     } finally {
