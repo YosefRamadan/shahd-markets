@@ -3,7 +3,7 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Pencil, X, Loader2 } from "lucide-react";
+import { ArrowLeft, Pencil, Printer, X, Loader2 } from "lucide-react";
 
 import { SiteShell } from "@/components/site/SiteShell";
 import { Button } from "@/components/ui/button";
@@ -127,7 +127,14 @@ function OrderDetailsPage() {
               {new Date(order.created_at).toLocaleString("ar-EG")}
             </p>
           </div>
-          <Badge className={STATUS_TONE[status]}>{STATUS_LABEL_AR[status]}</Badge>
+          <div className="flex items-center gap-2">
+            <Button asChild variant="outline" size="sm">
+              <Link to="/orders/$id/invoice" params={{ id }}>
+                <Printer className="ml-1 h-4 w-4" /> طباعة الفاتورة
+              </Link>
+            </Button>
+            <Badge className={STATUS_TONE[status]}>{STATUS_LABEL_AR[status]}</Badge>
+          </div>
         </div>
 
         {canModify && (
