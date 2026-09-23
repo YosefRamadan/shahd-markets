@@ -87,7 +87,7 @@ function AdminOrderDetails() {
           </div>
           <div className="flex items-center gap-2">
             <Button asChild variant="outline" size="sm">
-              <Link to="/admin/orders/$id/invoice" params={{ id }}>
+              <Link to="/admin/orders/invoice/$id" params={{ id }}>
                 <Printer className="h-4 w-4" /> طباعة الفاتورة
               </Link>
             </Button>
