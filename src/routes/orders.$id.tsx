@@ -129,7 +129,7 @@ function OrderDetailsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Button asChild variant="outline" size="sm">
-              <Link to="/orders/$id/invoice" params={{ id }}>
+              <Link to="/orders/invoice/$id" params={{ id }}>
                 <Printer className="ml-1 h-4 w-4" /> طباعة الفاتورة
               </Link>
             </Button>

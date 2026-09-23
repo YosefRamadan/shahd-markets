@@ -288,3 +288,24 @@
 .print-t58 {
   page: t58-page;
 }
+
+/* Isolate the invoice on paper: hide all app chrome (header, sidebar, footer,
+   floating buttons) without needing to know their markup. */
+@media print {
+  html.printing-invoice body * {
+    visibility: hidden !important;
+  }
+  html.printing-invoice .inv,
+  html.printing-invoice .inv * {
+    visibility: visible !important;
+  }
+  html.printing-invoice .inv {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+  }
+  /* A4 fills the sheet; thermal keeps its own narrow roll width. */
+  html.printing-invoice.print-a4 .inv {
+    width: 100%;
+  }
+}

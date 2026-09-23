@@ -35,8 +35,8 @@ export function InvoicePageShell({
   useEffect(() => {
     const el = document.documentElement;
     const cls = `print-${format}`;
-    el.classList.add(cls);
-    return () => el.classList.remove(cls);
+    el.classList.add(cls, "printing-invoice");
+    return () => el.classList.remove(cls, "printing-invoice");
   }, [format]);
 
   if (isLoading) {

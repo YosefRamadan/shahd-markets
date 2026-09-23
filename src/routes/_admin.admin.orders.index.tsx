@@ -116,7 +116,7 @@ function AdminOrdersPage() {
                     <td className="p-3">
                       <Button asChild size="sm" variant="outline">
                         <Link
-                          to="/admin/orders/$id/invoice"
+                          to="/admin/orders/invoice/$id"
                           params={{ id: o.id }}
                           target="_blank"
                         >
