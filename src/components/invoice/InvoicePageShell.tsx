@@ -29,6 +29,7 @@ export function InvoicePageShell({
   const { data, isLoading, error } = useQuery({
     queryKey: ["invoice", id],
     queryFn: () => getFn({ data: { id } }),
+    retry: false,
   });
 
   // The @page geometry is selected by a class on <html>.
